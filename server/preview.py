@@ -2,21 +2,28 @@ import os
 import json
 from pydub import AudioSegment
 
-directory = "" #filepath
-for folder in os.listdir(directory):
-    folder_path = os.path.join(directory, folder)
-    if os.path.isdir(folder_path):
-        base_file = os.path.join(folder_path, "base.ogg")
-        audio = AudioSegment.from_file(base_file, format="ogg")
-        json_file = os.path.join(folder_path, "songlist")
-        with open(json_file, encoding="utf-8") as f:
-            data = json.load(f)
-        audio_preview_start = data["audioPreview"]
-        audio_preview_end = data["audioPreviewEnd"]
-        preview_audio = audio[audio_preview_start:audio_preview_end]
-        preview_audio = preview_audio.fade_in(1250).fade_out(1750)
-        preview_audio = preview_audio.set_frame_rate(44100)
-        preview_audio = preview_audio.set_channels(2)
-        preview_audio = preview_audio.set_sample_width(2)
-        preview_file = os.path.join(folder_path, "preview.ogg")
-        preview_audio.export(preview_file, format="ogg", bitrate="192k")
+def getPreview(dir):
+    songlistPath = os.path.join(dir, "songlist")
+    with open(songlistPath, "r", encoding="utf-8") as songlist:
+        getData = json.load(songlist)
+    
+    for song in getData["songs"]:
+        id = song["id"]
+        startTime = song["audioPreview"]
+        endTime = song["audioPreviewEnd"]
+        folderPath = os.path.join(dir, id)
+        getBaseOgg = os.path.join(folderPath, "base.ogg")
+        pvPath = os.path.join(folderPath, "preview.ogg")
+        
+        if os.path.exists(getBaseOgg) and not os.path.exists(pvPath):
+            audio = AudioSegment.from_file(getBaseOgg, format="ogg")
+            samplingRate = 44100
+            channels = 2
+            codec = "libvorbis"
+            audio = audio.set_frame_rate(samplingRate)
+            audio = audio.set_channels(channels)
+            preview = audio[startTime:endTime]
+            fadeIn = 1250
+            fadeOut = 1750
+            preview = preview.fade_in(fadeIn).fade_out(fadeOut)
+            preview.export(pvPath, format="ogg", codec=codec, bitrate="192k")

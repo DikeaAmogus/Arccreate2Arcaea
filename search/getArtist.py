@@ -1,5 +1,6 @@
 # Note: This is just the base of the search_artist adding. If you want more then add it by yourself.
 
+
 def search_artist(artist):
     search_artist = {}
     switch = {
@@ -55,7 +56,10 @@ def search_artist(artist):
         "ぺのれり": {"en": ["penoreri"], "ko": ["페노레리"]},
         "モリモリあつし": {"en": ["morimori atsushi"], "ko": ["모리모리 아츠시"]},
         "アリスシャッハと魔法の楽団": {
-            "en": ["alice schach and the magic orchestra", "arisushahha to mahou no gakudan"],
+            "en": [
+                "alice schach and the magic orchestra",
+                "arisushahha to mahou no gakudan",
+            ],
             "ja": ["ありすしゃっはとまほうのがくだん"],
             "ko": ["아리스샤하토 마호노 가쿠단", "앨리스 샤하와 마법의 오케스트라"],
         },

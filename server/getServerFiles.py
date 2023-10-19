@@ -2,9 +2,10 @@ import os
 import re
 import shutil
 
+
 def cleanTrash(string):
-    return re.sub(r"['_\s()]", "", string.strip()).lower()
-    
+    return re.sub(r"['_\s()-]", "", string.strip()).lower()
+
 
 def moveFilesToDatabase(dir, extensions):
     for root, dirs, files in os.walk(dir):
@@ -12,9 +13,10 @@ def moveFilesToDatabase(dir, extensions):
             if any(filename.endswith(ext) for ext in extensions) or filename in [
                 "songlist",
                 "remote.aff",
+                "preview.ogg",
             ]:
-                file_path = os.path.join(root, filename)
-                os.remove(file_path)
+                filePath = os.path.join(root, filename)
+                os.remove(filePath)
         if root != dir:
             getAffs = [
                 filename
@@ -46,3 +48,39 @@ def moveFilesToDatabase(dir, extensions):
     for folder in renameFolders:
         os.rename(folder, os.path.join(dir, cleanTrash(os.path.basename(folder))))
     return moveFilesToDatabase
+
+
+def dl_(dir):
+    whitelist = [".jpg", ".arcproj", ".txt", ".json", ".arcpkg", ".aff", ".ogg"]
+    blacklist = ["base.jpg", "base_256.jpg", "preview.ogg"]
+    blacklistFolder = [
+        "sayonarahatsukoi",
+        "pack",
+        "random",
+        "dl_arcanaeden",
+        "dl_tempestissimo",
+        "dl_testify",
+        "dl_fractureray",
+        "dl_grievouslady",
+        "dl_defection",
+        "dl_infinitestrife",
+        "dl_last",
+        "dl_lasteternity",
+        "dl_lovelessdress",
+        "dl_pentiment",
+        "dl_worldender",
+    ]
+    for folder in os.listdir(dir):
+        folderPath = os.path.join(dir, folder)
+        if os.path.isdir(folderPath) and not folder.startswith("dl_"):
+            if folder not in blacklistFolder:
+                dlFolder = "dl_" + folder
+                smthPath = os.path.join(dir, dlFolder)
+                os.rename(folderPath, smthPath)
+                for root, dirs, files in os.walk(smthPath):
+                    for file in files:
+                        file_Path = os.path.join(root, file)
+                        file_extension = os.path.splitext(file)[1]
+                        if file_extension in whitelist and file not in blacklist:
+                            os.remove(file_Path)
+    return dl_
