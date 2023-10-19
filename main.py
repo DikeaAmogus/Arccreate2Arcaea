@@ -6,8 +6,8 @@ from songlist.songlist import dumpSonglist
 from server.getServerFiles import moveFilesToDatabase
 
 def main():
-    dir = "f:/test/mcr"  # C://Users//DELL//Downloads//wdl or f:/test/mcr
-    copyDir = "f:/test"
+    dir = "/path/to/dir/"
+    copyDir = "/path/for/database/" #just fall back by 1 folder at the dir var
     options = {
         "1": ("Dump songlist for non-server", dumpSonglist, (dir, False)),
         "2": (
