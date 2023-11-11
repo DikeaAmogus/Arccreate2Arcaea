@@ -1,22 +1,24 @@
 def getRatingClass(chart, getChartDesigner, getJacketDesigners):
     alias = chart.get("alias", chart.get("charter", ""))
-    if "\r" in alias:
-        alias = alias.split("\r")[0]
-    if "\n" in alias:
-        alias = alias.split("\n")[0]
-    if "\r" in alias:
-        alias = alias.split("\r")[0]
-    if "\u000b" in alias:
-        alias = alias.split("\u000b")[0]
-    if "<size=75%>" in alias:
-        alias = alias.split("<size=75%>")[0]
-    if "</size>" in alias:
-        alias = alias.strip("")
-    if alias.startswith("<size=75%></size>"):
-        alias = alias.replace("<size=75%></size>", "")
-    if alias.endswith("<size=75%>"):
-        alias = alias.replace("<size=75%>", "")
-    alias = alias.strip()
+    if "\r" in alias:  # this is so fucking dumb i swear.
+        alias = alias.split("\r")[0]  # this is so fucking dumb i swear.
+    if "\n" in alias:  # this is so fucking dumb i swear.
+        alias = alias.split("\n")[0]  # this is so fucking dumb i swear.
+    if "\r" in alias:  # this is so fucking dumb i swear.
+        alias = alias.split("\r")[0]  # this is so fucking dumb i swear.
+    if "\u000b" in alias:  # this is so fucking dumb i swear.
+        alias = alias.split("\u000b")[0]  # this is so fucking dumb i swear.
+    if "</size>" in alias:  # this is so fucking dumb i swear.
+        alias = alias.strip("")  # this is so fucking dumb i swear.
+    if "<size=75%>" in alias:  # this is so fucking dumb i swear.
+        alias = alias.strip("")  # this is so fucking dumb i swear.
+    if alias.startswith("<size=75%></size>"):  # this is so fucking dumb i swear.
+        alias = alias.replace(
+            "<size=75%></size>", ""
+        )  # this is so fucking dumb i swear.
+    if alias.endswith("<size=75%>"):  # this is so fucking dumb i swear.
+        alias = alias.replace("<size=75%>", "")  # this is so fucking dumb i swear.
+    alias = alias.strip()  # this is so fucking dumb i swear.
     chartDesigner = getChartDesigner[chart["chartPath"]] = alias
     jacketDesigner = getJacketDesigners[chart["chartPath"]] = chart.get(
         "illustrator", ""
@@ -41,6 +43,8 @@ def getRatingClass(chart, getChartDesigner, getJacketDesigners):
     jacketPath = chart.get("jacketPath", "")
     audioOverride = f"{chart['chartPath'][0]}.ogg"
     jacketOverride = f"{chart['chartPath'][0]}.jpg"
+    if not jacketOverride == f"{chart['chartPath'][0]}.jpg":
+        jacketOverride = f"{chart['chartPath'][0]}.png"
     if audioOverride in audioPath:
         getRatingClasses["audioOverride"] = True
     if jacketOverride in jacketPath:

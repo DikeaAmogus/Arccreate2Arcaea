@@ -1,6 +1,8 @@
 import os
 import re
 import shutil
+from search.blacklistFolder import checkFolders
+
 
 
 def cleanTrash(string):
@@ -51,29 +53,34 @@ def moveFilesToDatabase(dir, extensions):
 
 
 def dl_(dir):
-    whitelist = [".jpg", ".arcproj", ".txt", ".json", ".arcpkg", ".aff", ".ogg"]
-    blacklist = ["base.jpg", "base_256.jpg", "preview.ogg"]
-    blacklistFolder = [
-        "sayonarahatsukoi",
-        "pack",
-        "random",
-        "dl_arcanaeden",
-        "dl_tempestissimo",
-        "dl_testify",
-        "dl_fractureray",
-        "dl_grievouslady",
-        "dl_defection",
-        "dl_infinitestrife",
-        "dl_last",
-        "dl_lasteternity",
-        "dl_lovelessdress",
-        "dl_pentiment",
-        "dl_worldender",
+    whitelist = [
+        ".jpg",
+        ".arcproj",
+        ".txt",
+        ".json",
+        ".arcpkg",
+        ".aff",
+        ".ogg",
+        ".DS_Store",
     ]
+    blacklist = [
+        "1080_base.jpg",
+        "1080_base_256.jpg",
+        "1080_0.jpg",
+        "1080_0_256.jpg",
+        "1080_1.jpg",
+        "1080_1_256.jpg",
+        "1080_2.jpg",
+        "1080_2_256.jpg",
+        "1080_3.jpg",
+        "1080_3_256.jpg",
+        "preview.ogg",
+    ]
+
     for folder in os.listdir(dir):
         folderPath = os.path.join(dir, folder)
         if os.path.isdir(folderPath) and not folder.startswith("dl_"):
-            if folder not in blacklistFolder:
+            if folder not in checkFolders():
                 dlFolder = "dl_" + folder
                 smthPath = os.path.join(dir, dlFolder)
                 os.rename(folderPath, smthPath)

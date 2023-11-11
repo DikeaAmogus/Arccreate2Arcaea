@@ -108,7 +108,7 @@ def dumpSonglist(dir, offlineSide=False):
             song["bg"] = "nijuusei-light-b"
             song["bg_inverse"] = "nijuusei-conflict-b"
         if not song["search_artist"]:
-            del song["search_artist"]
+            del song["search_artist"] 
     if not offlineSide:
         dumpSonglist = os.path.join(dir, "songlist")
         with open(dumpSonglist, "w", encoding="utf-8") as combinedFile:
